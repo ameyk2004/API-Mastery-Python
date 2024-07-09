@@ -177,7 +177,7 @@ def delete_post(id: int):
     my_posts.pop(index)
 ```
 
-## POSTGRESQL Integration
+## PostgreSQL Integration
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" width=100>
 
