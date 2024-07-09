@@ -32,3 +32,8 @@ python3 -m venv venv
 
 - Press Cmd+Shift+P (macOS) or Ctrl+Shift+P (Windows/Linux) to open the command palette.
 - Type Python: Select Interpreter and select the virtual environment you created (it should show a path ending with venv).
+
+### Activate the Virtual Environment:
+```bash
+source venv/bin/activate
+```
