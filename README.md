@@ -212,3 +212,12 @@ while True:
 - Now we dont need to fire raw sql commands directly we can talk to our `ORM` with python code.
 
 <img src="assets/Screenshot 2024-07-09 at 8.45.54 PM.png">
+
+<img src="assets/Screenshot 2024-07-09 at 8.48.14 PM.png">
+
+- One of the most Popular ORM tool is SQLAlchemy
+
+## `SQLAlchemy` - ORM
+
+- this is a standalone library
+- Nothing to do with `FastAPI`
