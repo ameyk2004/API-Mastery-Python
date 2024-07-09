@@ -176,3 +176,31 @@ def delete_post(id: int):
     
     my_posts.pop(index)
 ```
+
+## POSTGRESQL Integration
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" width=100>
+
+### Adaptaer for Python `Psycopg`
+
+- [Psycopg Docs](https://www.psycopg.org/docs/)
+- Visit the docs to Connect Postgresql with Python
+
+```python
+#code below should run after a sucessful connection
+
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+while True:
+    try:
+        connection = psycopg2.connect(host="localhost", database="fastapi_db", user="postgres", password="Amey1234", cursor_factory=RealDictCursor)
+        cursor = connection.cursor()
+        print("Connection sucessful")
+        break
+    except Exception as error:
+        print(f"Error {error}")
+        print("Connection failed")
+        time.sleep(2)
+```
+
