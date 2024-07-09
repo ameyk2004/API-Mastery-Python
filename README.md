@@ -128,3 +128,9 @@ In this example:
 
 - A Pydantic model Item is defined to validate the request body.
 - The create_item function handles POST requests to /items/. It expects a JSON body that matches the Item model and returns the received item.
+
+<hr>
+
+# CRUD operations in FastAPI
+
+<img src="assets/Screenshot 2024-07-09 at 10.46.38 AM.png">
