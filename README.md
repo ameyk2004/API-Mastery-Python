@@ -206,4 +206,7 @@ while True:
 # This is good for development Environment
 # dont rely on this if deployment server
 ```
+## ORM (Object Relational Mapper)
 
+- Layer of abstraction that sits between the database and us.
+- Now we dont need to fire raw sql commands directly we can talk to our `ORM` with python code.
