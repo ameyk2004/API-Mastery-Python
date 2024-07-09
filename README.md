@@ -46,3 +46,30 @@ source venv/bin/activate
 pip install fastapi
 ```
 
+## FastAPI
+
+- to get upp and running copy the code below to create a simple `GET API`
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get('/')
+def root():
+    return {"message" : "Hello from FastAPI"}
+```
+
+- Run your server
+
+```bash
+uvicorn main:app
+```
+
+The above command runs your `main.py` file on a server at port 8000 but any changes dont reflect uless the server is stopped and restarted
+
+so during development we can use 
+
+```bash
+uvicorn main:app -- reload
+```
