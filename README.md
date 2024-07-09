@@ -34,6 +34,15 @@ python3 -m venv venv
 - Type Python: Select Interpreter and select the virtual environment you created (it should show a path ending with venv).
 
 ### Activate the Virtual Environment:
+
 ```bash
 source venv/bin/activate
 ```
+
+### Install Fast API
+- [FastAPI Documentation](https://fastapi.tiangolo.com)
+
+```bash
+pip install fastapi
+```
+
