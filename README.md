@@ -73,3 +73,58 @@ so during development we can use
 ```bash
 uvicorn main:app --reload
 ```
+
+### GET Request with FastAPI
+
+GET requests are used to retrieve data from a server. To handle a GET request in FastAPI, use the @app.get decorator.
+
+Here's an example of a simple GET request:
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to FastAPI!"}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    return {"item_id": item_id}
+```
+
+In this example:
+
+- The read_root function handles GET requests to the root URL (/).
+- The read_item function handles GET requests to /items/{item_id}, where item_id is a path parameter.
+
+
+### POST Requests in FastAPI
+
+POST requests are used to send data to a server to create or update a resource. To handle a POST request in FastAPI, use the @app.post decorator.
+
+Here's an example of a simple POST request:
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    description: str = None
+    price: float
+    tax: float = None
+
+@app.post("/items/")
+def create_item(item: Item):
+    return {"item": item}
+
+```
+
+In this example:
+
+- A Pydantic model Item is defined to validate the request body.
+- The create_item function handles POST requests to /items/. It expects a JSON body that matches the Item model and returns the received item.
