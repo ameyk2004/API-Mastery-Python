@@ -6,6 +6,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
 
 ## Introduction
 
@@ -18,3 +19,16 @@ This project aims to provide a comprehensive guide to API development with Pytho
 - **PostgreSQL**: A powerful, open-source object-relational database system.
 - **Docker**: A platform for developing, shipping, and running applications in containers.
 - **AWS**: Amazon Web Services, a comprehensive cloud computing platform.
+
+## Setup and Installation
+
+### Make your own Virtual enviornment
+
+```bash
+python3 -m venv venv
+```
+
+### Select Your Virtual Environment (VS Code):
+
+- Press Cmd+Shift+P (macOS) or Ctrl+Shift+P (Windows/Linux) to open the command palette.
+- Type Python: Select Interpreter and select the virtual environment you created (it should show a path ending with venv).
