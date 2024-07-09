@@ -210,3 +210,5 @@ while True:
 
 - Layer of abstraction that sits between the database and us.
 - Now we dont need to fire raw sql commands directly we can talk to our `ORM` with python code.
+
+<img src="assets/Screenshot 2024-07-09 at 8.45.54 PM.png">
