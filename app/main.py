@@ -1,12 +1,19 @@
 from random import randrange
 from typing import Optional
-from fastapi import FastAPI, HTTPException, Response, status
+from fastapi import Depends, FastAPI, HTTPException, Response, status
 from fastapi.params import Body
+
 from pydantic import BaseModel
 import time
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
+
+from .database import engine, SessionLocal, get_db
+from sqlalchemy.orm import Session
+from . import models
+
+models.Base.metadata.create_all(bind=engine)
 
 while True:
     try:
@@ -26,8 +33,6 @@ class Post(BaseModel):
     title: str
     content: str
     published: bool = True
-
-my_posts = []
 
 
 @app.get('/')
@@ -109,3 +114,7 @@ def update_post(id: int, post: Post):
     except Exception as error:
         return {"error" : str(error)}
 
+
+@app.get('/sqlalchemy')
+def test(db: Session = Depends(get_db)):
+    pass

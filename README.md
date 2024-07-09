@@ -221,3 +221,75 @@ while True:
 
 - this is a standalone library
 - Nothing to do with `FastAPI`
+- ORMS cant directly talk to database you need drivers so ru these import statements
+
+```bash
+pip install sqlalchemy
+pip install psycopg2-binary
+```
+
+Create a folder structure similar to below:
+
+```.
+└── app
+    ├── __init__.py
+    ├── crud.py
+    ├── database.py
+    ├── main.py
+    ├── models.py
+    └── schemas.py
+```
+
+- `database.py` should contain the sqlAlchemy initializations like below
+
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+SQLALCHEMY_DATABASE_URL = "postgresql://<username>:<password>@<ip-address/hostname>/<database-name>"
+# Example : SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Amey1234@localhost/fastapi_db"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+
+- `models.py` should contain your tables
+
+```python
+from sqlalchemy import VARCHAR, Boolean, Column, Integer
+from .database import Base 
+
+class Post(Base):
+    __tablename__ = "posts"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(VARCHAR, nullable=False)
+    content = Column(VARCHAR, nullable=False)
+    published = Column(Boolean, default=True)  
+```
+
+- Your `main.py` file should like below
+
+```python
+from sqlalchemy.orm import Session
+from .database import engine, SessionLocal, get_db
+from . import models
+
+models.Base.metadata.create_all(bind=engine)
+
+@app.get('/sqlalchemy')
+def test(db: Session = Depends(get_db)):
+    pass
+
+```
