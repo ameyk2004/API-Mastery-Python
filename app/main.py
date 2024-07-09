@@ -38,7 +38,6 @@ def root():
 def get_posts():
     cursor.execute("""SELECT * FROM posts""")
     posts = cursor.fetchall()
-    print(posts)
     return {"posts" : posts}
 
 @app.post('/posts', status_code=status.HTTP_201_CREATED)
@@ -54,20 +53,22 @@ def create_post(post: Post):
     except Exception as error:
         return {"error" : f"{str(error)}"}
     
-    finally:
-        cursor.close()
-        conn.close()
     return {"status" : "success"}
 
 @app.get('/posts/{id}')
 def get_post(id:int):
     try:
         cursor.execute(f"SELECT * FROM posts WHERE id = {id}")
-        post = cursor.fetchone()
+        got_post = cursor.fetchone()
+        print(got_post)
 
-        if not post:
+        if got_post == None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} not found")
-        return {"post" : post}
+        
+        return {"post" : got_post}
+    
+    except HTTPException as http_error:
+        return http_error
     
     except Exception as error:
         return {"error" : str(error)}
@@ -82,22 +83,29 @@ def delete_post(id: int):
             raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
         
         cursor.execute(f"DELETE FROM posts WHERE id = {id}")
+        conn.commit()
 
-
+    except HTTPException as http_error:
+        return http_error
+    
     except Exception as error:
         return {"error" : str(error)}
 
 @app.put('/posts/{id}')
 def update_post(id: int, post: Post):
     try:
-        cursor.execute("UPDATE posts SET title = %s, content = %s WHERE id = %s",(post.title,post.content,id))
+        cursor.execute(f"SELECT * FROM posts WHERE id = {id}")
+        got_post = cursor.fetchone()
+        cursor.execute("UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s",(post.title,post.content,post.published,id))
 
-        if not post:
+        if got_post == None:
             raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
-        
-
+        conn.commit()
         return {"status" : "success"}
-
+    
+    except HTTPException as http_error:
+        return http_error
+    
     except Exception as error:
         return {"error" : str(error)}
 
