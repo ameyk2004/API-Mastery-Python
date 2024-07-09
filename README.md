@@ -202,5 +202,8 @@ while True:
         print(f"Error {error}")
         print("Connection failed")
         time.sleep(2)
+
+# This is good for development Environment
+# dont rely on this if deployment server
 ```
 
