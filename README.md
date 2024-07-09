@@ -71,5 +71,5 @@ The above command runs your `main.py` file on a server at port 8000 but any chan
 so during development we can use 
 
 ```bash
-uvicorn main:app -- reload
+uvicorn main:app --reload
 ```
