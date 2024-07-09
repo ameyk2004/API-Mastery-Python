@@ -134,3 +134,45 @@ In this example:
 # CRUD operations in FastAPI
 
 <img src="assets/Screenshot 2024-07-09 at 10.46.38 AM.png">
+
+```python
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
+def create_post(post: Post):
+    id = randrange(0,100000)
+
+    post_dict = dict(post)
+    post_dict["id"] = id
+
+    my_posts.append(post_dict)
+    return {"post" : post_dict, "status" : "success"}
+
+@app.get('/posts/{id}')
+def get_post(id:int):
+    post = find_post(id)
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} not found")
+    return {"post" : post}
+
+@app.put('/posts/{id}')
+def update_post(id: int, post: Post):
+    index = find_post_index(id)
+    post_dict = dict(post)
+    post_dict["id"] = id
+
+    if index == None:
+        raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
+    
+    my_posts[index] = post_dict
+    
+    return {"message" : "updated"}
+
+@app.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int):
+    index = find_post_index(id)
+    print(index)
+
+    if index == None:
+        raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
+    
+    my_posts.pop(index)
+```
