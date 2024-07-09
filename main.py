@@ -1,5 +1,6 @@
+from random import randrange
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.params import Body
 from pydantic import BaseModel
 
@@ -11,6 +12,29 @@ class Post(BaseModel):
     published: bool = True
     rating: Optional[int] = None
 
+my_posts = [
+    {
+        "title" : "Title 1",
+        "content" : "Content 1",
+        "id" : 1
+    },
+    {
+        "title" : "Title 2",
+        "content" : "Content 2",
+        "id" : 2
+    },
+]
+
+def find_post(id : int):
+    for post in my_posts:
+        if post["id"] == id:
+            return post
+        
+
+def find_post_index(id : int):
+    for i, post in enumerate(my_posts):
+        if post["id"] == id:
+            return i
 
 @app.get('/')
 def root():
@@ -18,9 +42,44 @@ def root():
 
 @app.get('/posts')
 def get_posts():
-    return {"data" : "These are your posts"}
+    return {"posts" : my_posts}
 
-@app.post('/create-post')
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
 def create_post(post: Post):
-    print(post)
-    return {"data" : post}
+    id = randrange(0,100000)
+
+    post_dict = dict(post)
+    post_dict["id"] = id
+
+    my_posts.append(post_dict)
+    return {"post" : post_dict, "status" : "success"}
+
+@app.get('/posts/{id}')
+def get_post(id:int):
+    post = find_post(id)
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} not found")
+    return {"post" : post}
+
+@app.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(id: int):
+    index = find_post_index(id)
+    print(index)
+
+    if index == None:
+        raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
+    
+    my_posts.pop(index)
+
+@app.put('/posts/{id}')
+def update_post(id: int, post: Post):
+    index = find_post_index(id)
+    post_dict = dict(post)
+    post_dict["id"] = id
+
+    if index == None:
+        raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
+    
+    my_posts[index] = post_dict
+    
+    return {"message" : "updated"}
