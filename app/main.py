@@ -90,15 +90,13 @@ def delete_post(id: int):
 @app.put('/posts/{id}')
 def update_post(id: int, post: Post):
     try:
-        cursor.execute(f"UPDATE posts SET title = {post.title}, content = {post.content} WHERE id = {id}")
-        post = cursor.fetchone()
-        print(post)
+        cursor.execute("UPDATE posts SET title = %s, content = %s WHERE id = %s",(post.title,post.content,id))
 
         if not post:
             raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
         
-        cursor.execute(f"DELETE FROM posts WHERE id = {id}")
 
+        return {"status" : "success"}
 
     except Exception as error:
         return {"error" : str(error)}
