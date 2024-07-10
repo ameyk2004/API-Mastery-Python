@@ -315,3 +315,47 @@ def test(db: Session = Depends(get_db)):
 
 
 ## Authentication and User Model
+
+- basically we will just cretate a UserCreate Model and UserOut model (pydantic) to validate creation and response of our user 
+
+`schemas.py`
+
+```python
+class UserCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+
+class UserOut(BaseModel):
+    id:int
+    name: str
+    email: EmailStr
+
+    class Config:
+        orm_mode = True
+```
+
+Now you should be able to perform normal `CRUD` operations with users
+
+### CRUD with Users
+
+```python
+#create
+@app.post('/users', status_code=status.HTTP_201_CREATED, response_model= schemas.UserOut)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+
+    new_user = models.User(name=user.name, email=user.email, password=user.password,)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
+
+#read
+@app.get('/users')
+def get_users(db: Session = Depends(get_db)):
+
+    users = db.query(models.User).all()
+
+    return {"users" : users}
+```
