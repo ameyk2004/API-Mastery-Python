@@ -13,6 +13,8 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [ORM (Object Relational Mapper)](#orm-object-relational-mapper)
 - [SQLAlchemy](#sqlalchemy)
 - [ORM models Vs Pydantic models](#orm-models-vs-pydantic-models)
+- [Authentication and User Model](#authentication-and-user-model)
+
 
 
 
@@ -310,3 +312,6 @@ def test(db: Session = Depends(get_db)):
 <img src="assets/Screenshot 2024-07-10 at 8.31.48 AM.png">
 
 <img src="assets/Screenshot 2024-07-10 at 8.33.02 AM.png">
+
+
+## Authentication and User Model

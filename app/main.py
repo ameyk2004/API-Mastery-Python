@@ -9,7 +9,7 @@ import time
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
-from app.schemas import Post
+from . import schemas
 
 from .database import engine, SessionLocal, get_db
 from sqlalchemy.orm import Session
@@ -42,7 +42,7 @@ def get_posts(db : Session = Depends(get_db)):
     return {"posts" : posts}
 
 @app.post('/posts', status_code=status.HTTP_201_CREATED)
-def create_post(post: Post, db: Session = Depends(get_db)):
+def create_post(post: schemas.Post, db: Session = Depends(get_db)):
     new_post = models.Post(title = post.title, content=post.content, published=post.published)
     db.add(new_post)
     db.commit()
@@ -73,7 +73,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
   
 
 @app.put('/posts/{id}')
-def update_post(id: int, my_post: Post, db: Session = Depends(get_db)):
+def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db)):
     
     post = db.query(models.Post).filter(models.Post.id == id)
 
@@ -87,3 +87,12 @@ def update_post(id: int, my_post: Post, db: Session = Depends(get_db)):
     return {"status" : "success"}
 
 
+@app.post('/users', status_code=status.HTTP_201_CREATED, response_model= schemas.UserOut)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+
+    new_user = models.User(name=user.name, email=user.email, password=user.password,)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return new_user
