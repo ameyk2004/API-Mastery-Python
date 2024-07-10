@@ -371,4 +371,4 @@ There are various hashing algorithms available, such as:
 
 ### Salting
 
-Salting is a technique used to enhance password security. A salt is a random value added to the password before hashing. This ensures that even if two users have the same password, their hashed values will be different. Salting helps defend against rainbow table attacks, where attackers use precomputed tables of hash values to crack passwords.
+Salting is a technique used to enhance password security. A salt is a random value added to the password before hashing. This ensures that even if two users have the same password, their hashed values will be different.
