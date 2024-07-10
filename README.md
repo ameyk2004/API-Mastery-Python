@@ -7,6 +7,15 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
 - [Setup and Installation](#setup-and-installation)
+- [FastAPI Introduction](#fastapi)
+- [GET and POST Requests with FastAPI](#get-request-with-fastapi)
+- [CRUD operations in FastAPI](#crud-operations-in-fastapi)
+- [ORM (Object Relational Mapper)](#orm-object-relational-mapper)
+- [SQLAlchemy](#sqlalchemy)
+- [ORM models Vs Pydantic models](#orm-models-vs-pydantic-models)
+
+
+
 
 ## Introduction
 
@@ -129,6 +138,8 @@ In this example:
 - A Pydantic model Item is defined to validate the request body.
 - The create_item function handles POST requests to /items/. It expects a JSON body that matches the Item model and returns the received item.
 
+- keep your pydantic models in `schemas.py` file.
+
 <hr>
 
 # CRUD operations in FastAPI
@@ -217,7 +228,7 @@ while True:
 
 - One of the most Popular ORM tool is SQLAlchemy
 
-## `SQLAlchemy` - ORM
+## `SQLAlchemy`
 
 - this is a standalone library
 - Nothing to do with `FastAPI`
@@ -293,3 +304,9 @@ def test(db: Session = Depends(get_db)):
     pass
 
 ```
+
+## ORM models Vs Pydantic models
+
+<img src="assets/Screenshot 2024-07-10 at 8.31.48 AM.png">
+
+<img src="assets/Screenshot 2024-07-10 at 8.33.02 AM.png">
