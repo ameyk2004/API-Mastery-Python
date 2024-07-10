@@ -40,81 +40,54 @@ def root():
     return {"message" : "Hello from FastAPI"}
 
 @app.get('/posts')
-def get_posts():
-    cursor.execute("""SELECT * FROM posts""")
-    posts = cursor.fetchall()
+def get_posts(db : Session = Depends(get_db)):
+
+    posts = db.query(models.Post).all()
     return {"posts" : posts}
 
 @app.post('/posts', status_code=status.HTTP_201_CREATED)
-def create_post(post: Post):
-    
-    try:
-        cursor.execute(
-            "INSERT INTO posts (title, content, published) VALUES (%s, %s, %s)",
-            (post.title, post.content, post.published)
-        )
-        conn.commit()
+def create_post(post: Post, db: Session = Depends(get_db)):
+    new_post = models.Post(title = post.title, content=post.content, published=post.published)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
 
-    except Exception as error:
-        return {"error" : f"{str(error)}"}
-    
-    return {"status" : "success"}
+    return {"post" : new_post}
 
 @app.get('/posts/{id}')
-def get_post(id:int):
-    try:
-        cursor.execute(f"SELECT * FROM posts WHERE id = {id}")
-        got_post = cursor.fetchone()
-        print(got_post)
+def get_post(id:int, db: Session = Depends(get_db)):
 
-        if got_post == None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} not found")
-        
-        return {"post" : got_post}
+    post = db.query(models.Post).filter(models.Post.id == id).first()
+
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} not found")
     
-    except HTTPException as http_error:
-        return http_error
-    
-    except Exception as error:
-        return {"error" : str(error)}
+    return {"post" : post}
 
 @app.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int):
-    try:
-        cursor.execute(f"SELECT * FROM posts WHERE id = {id}")
-        post = cursor.fetchone()
+def delete_post(id: int, db: Session = Depends(get_db)):
 
-        if not post:
-            raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
-        
-        cursor.execute(f"DELETE FROM posts WHERE id = {id}")
-        conn.commit()
+    post = db.query(models.Post).filter(models.Post.id == id)
 
-    except HTTPException as http_error:
-        return http_error
+    if not post.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} not found")
     
-    except Exception as error:
-        return {"error" : str(error)}
+    post.delete(synchronize_session=False)
+    db.commit()
+  
 
 @app.put('/posts/{id}')
-def update_post(id: int, post: Post):
-    try:
-        cursor.execute(f"SELECT * FROM posts WHERE id = {id}")
-        got_post = cursor.fetchone()
-        cursor.execute("UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s",(post.title,post.content,post.published,id))
-
-        if got_post == None:
-            raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
-        conn.commit()
-        return {"status" : "success"}
+def update_post(id: int, my_post: Post, db: Session = Depends(get_db)):
     
-    except HTTPException as http_error:
-        return http_error
+    post = db.query(models.Post).filter(models.Post.id == id)
+
+    if not post.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} not found")
     
-    except Exception as error:
-        return {"error" : str(error)}
+    post.update({'title' : my_post.title, 'content': my_post.content, 'published' : my_post.published})
+
+    db.commit()
+
+    return {"status" : "success"}
 
 
-@app.get('/sqlalchemy')
-def test(db: Session = Depends(get_db)):
-    pass
