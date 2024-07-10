@@ -14,10 +14,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [SQLAlchemy](#sqlalchemy)
 - [ORM models Vs Pydantic models](#orm-models-vs-pydantic-models)
 - [Authentication and User Model](#authentication-and-user-model)
-
-
-
-
+- [Password Security using Hashing](#password-security-using-hashing)
 
 ## Introduction
 
@@ -359,3 +356,19 @@ def get_users(db: Session = Depends(get_db)):
 
     return {"users" : users}
 ```
+## Password Security using Hashing
+
+### Why Use Hashing for Passwords?
+Hashing passwords adds a layer of security to stored passwords, making it difficult for unauthorized users to retrieve them. Instead of storing the actual passwords, applications store the hashed version of the passwords. Even if an attacker gains access to the stored data, they only get the hashed values, not the actual passwords.
+
+### Hashing Algorithms
+There are various hashing algorithms available, such as:
+
+- `MD5`: Message Digest Algorithm 5, though it is not recommended due to vulnerabilities.
+- `SHA-1`: Secure Hash Algorithm 1, which is also now considered insecure for sensitive data.
+- `SHA-256`: Part of the SHA-2 family, it is widely used and considered secure.
+- `bcrypt`: Specifically designed for hashing passwords, it includes a work factor to adjust the algorithm’s complexity.
+
+### Salting
+
+Salting is a technique used to enhance password security. A salt is a random value added to the password before hashing. This ensures that even if two users have the same password, their hashed values will be different. Salting helps defend against rainbow table attacks, where attackers use precomputed tables of hash values to crack passwords.
