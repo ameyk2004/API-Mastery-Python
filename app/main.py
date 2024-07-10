@@ -9,6 +9,8 @@ import time
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+from app.schemas import Post
+
 from .database import engine, SessionLocal, get_db
 from sqlalchemy.orm import Session
 from . import models
@@ -28,12 +30,6 @@ while True:
 
 
 app = FastAPI()
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-
 
 @app.get('/')
 def root():
