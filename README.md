@@ -24,11 +24,14 @@ This project aims to provide a comprehensive guide to API development with Pytho
 
 ## Technologies Used
 
-<img src="https://seeklogo.com/images/F/fastapi-logo-541BAA112F-seeklogo.com.png" height="60">
-<img src="https://cdn-icons-png.flaticon.com/512/4492/4492311.png" height="60">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" height="60">
-<img src="https://cdn.iconscout.com/icon/free/png-256/free-docker-226091.png?f=webp&w=256" height="60">
-<img src="https://www.pngall.com/wp-content/uploads/13/AWS-Logo-PNG-File.png" height="60">
+<div style="display: flex; align-items: center; gap: 15px;">
+    <img src="https://seeklogo.com/images/F/fastapi-logo-541BAA112F-seeklogo.com.png" height="70" alt="FastAPI">
+    <img src="https://cdn-icons-png.flaticon.com/512/4492/4492311.png" height="70" alt="Icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" height="70" alt="PostgreSQL">
+    <img src="https://cdn.iconscout.com/icon/free/png-256/free-docker-226091.png?f=webp&w=256" height="60" alt="Docker">
+    <img src="https://www.pngall.com/wp-content/uploads/13/AWS-Logo-PNG-File.png" height="70" alt="AWS">
+</div>
+
 
 
 ## Setup and Installation
