@@ -24,11 +24,12 @@ This project aims to provide a comprehensive guide to API development with Pytho
 
 ## Technologies Used
 
-- **FastAPI**: A modern, fast (high-performance), web framework for building APIs with Python 3.7+.
-- **SQL**: Structured Query Language for database interaction.
-- **PostgreSQL**: A powerful, open-source object-relational database system.
-- **Docker**: A platform for developing, shipping, and running applications in containers.
-- **AWS**: Amazon Web Services, a comprehensive cloud computing platform.
+<img src="https://seeklogo.com/images/F/fastapi-logo-541BAA112F-seeklogo.com.png" height="60">
+<img src="https://cdn-icons-png.flaticon.com/512/4492/4492311.png" height="60">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" height="60">
+<img src="https://cdn.iconscout.com/icon/free/png-256/free-docker-226091.png?f=webp&w=256" height="60">
+<img src="https://www.pngall.com/wp-content/uploads/13/AWS-Logo-PNG-File.png" height="60">
+
 
 ## Setup and Installation
 
