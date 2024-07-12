@@ -18,6 +18,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [Password Security using Hashing](#password-security-using-hashing)
 - [JWT Token Authentication](#jwt-token-autentication)
 - [Login Process Using JWT](#login-process-using-jwt)
+- [OAuth2PasswordRequestForm Usage](#oauth2passwordrequestform-usage)
 
 ## Introduction
 
@@ -538,3 +539,26 @@ def login(user_credentials: schemas.UserLogin, db: Session = Depends(get_db)):
 
     return {"access_token" : access_token, "token_type" : "bearer"}  
 ```
+
+## OAuth2PasswordRequestForm Usage
+
+### Why Use OAuth2PasswordRequestForm Instead of Raw JSON in FastAPI
+
+**1. Standards Compliance:**
+- OAuth2 Protocol: OAuth2PasswordRequestForm is part of the OAuth2 protocol, which is a widely adopted standard for token-based authentication and authorization. Using this form ensures compliance with this protocol, facilitating easier integration with other systems and services that also follow OAuth2.
+
+**2. Security Benefits:**
+- Form Data Transmission: OAuth2PasswordRequestForm transmits credentials as form data instead of JSON. This can help avoid certain security risks associated with JSON payloads, such as CSRF (Cross-Site Request Forgery) attacks.
+
+```python
+# you need to use OAuth2PasswordRequestForm instead of a pydantic model
+def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    #This form wants two Fields "username" and "password"
+
+    user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
+    #accessing username though user_credentials
+```
+
+#### How to pass data from Postman
+
+<img src="assets/Screenshot 2024-07-12 at 6.14.20 PM.png">
