@@ -10,6 +10,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [FastAPI Introduction](#fastapi)
 - [GET and POST Requests with FastAPI](#get-request-with-fastapi)
 - [CRUD operations in FastAPI](#crud-operations-in-fastapi)
+- [FastAPI Routers](#fastapi-routers)
 - [ORM (Object Relational Mapper)](#orm-object-relational-mapper)
 - [SQLAlchemy](#sqlalchemy)
 - [ORM models Vs Pydantic models](#orm-models-vs-pydantic-models)
@@ -185,6 +186,49 @@ def delete_post(id: int):
         raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
     
     my_posts.pop(index)
+```
+
+## FastAPI Routers
+
+- if you have two manage the routes in your application which are related you can use APIRouter
+- create a file structure to store `/posts` routs  and `/users` routes in different directories.
+
+```
+└── app
+    ├── __init__.py
+    └── routers
+        ├── posts.py
+        ├── users.py
+    ├── crud.py
+    ├── database.py
+    ├── main.py
+    ├── models.py
+    └── schemas.py
+```
+
+- Your `posts.py` or `users.py` should look like this.
+
+```python
+from fastapi import APIRouter
+
+router = APIRouter(
+    prefix='/posts'
+)
+
+@router.get('/')
+def get_posts(db : Session = Depends(get_db)):
+
+    posts = db.query(models.Post).all()
+    return {"posts" : posts}
+```
+
+- include this routes to app in `main.py`
+
+```python
+app = FastAPI()
+
+app.include_router(posts.router)
+app.include_router(users.router)
 ```
 
 ## PostgreSQL Integration
