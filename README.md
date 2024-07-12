@@ -625,3 +625,8 @@ def protected_route(current_user: schemas.User = Depends(get_current_user)):
 
 - **Summary**
 This setup ensures that the /protected-route endpoint is accessible only to authenticated users with a valid JWT token. Users must include the token in the Authorization header as "Bearer token" to access protected routes, providing a secure method for API authentication in FastAPI. Adjust the schemas import and schema definitions (TokenData, User) according to your project's needs.
+
+
+### Add a Bearer Token to Postman
+
+<img src="assets/Screenshot 2024-07-13 at 12.21.20 AM.png">
