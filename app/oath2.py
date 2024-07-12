@@ -1,10 +1,10 @@
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from . import schemas
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 
-#SECRET KEY
-#Algo
-#Expiration Time
+oauth2_schema = OAuth2PasswordBearer(tokenUrl='login')
 
 # openssl rand -hex 32 - generate SECRET
 
@@ -32,5 +32,23 @@ def verify_token(token, credentialexception):
         
         token_data = schemas.TokenData(id=id)
 
+        return token_data
+
     except JWTError:
         raise credentialexception
+    
+
+# pass this is as a dependency in path operation
+# take the token from the request
+# extract the id
+# verify the token
+# get current user
+    
+def get_current_user(token: str = Depends(oauth2_schema)):
+    credential_exception = HTTPException(
+        detail="Could not validate", 
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        headers={"WWW-Authenticate" : "Bearer"})
+    
+    return verify_token(token, credential_exception)
+    

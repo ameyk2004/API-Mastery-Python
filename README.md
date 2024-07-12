@@ -19,6 +19,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [JWT Token Authentication](#jwt-token-autentication)
 - [Login Process Using JWT](#login-process-using-jwt)
 - [OAuth2PasswordRequestForm Usage](#oauth2passwordrequestform-usage)
+- [JWT Token Verification](#jwt-token-verification)
 
 ## Introduction
 
@@ -564,3 +565,61 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
 #### How to pass data from Postman
 
 <img src="assets/Screenshot 2024-07-12 at 6.14.20 PM.png">
+
+
+## JWT Token Verification
+
+```python
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+import schemas  # Import your schemas module
+
+app = FastAPI()
+
+oauth2_schema = OAuth2PasswordBearer(tokenUrl="login") # path where token gets created
+
+SECRET_KEY = "your_secret_key"
+ALGORITHM = "HS256"
+
+def verify_token(token, credential_exception):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        id = payload.get("id")
+
+        if not id: 
+            raise credential_exception
+        
+        token_data = schemas.TokenData(id=id)
+
+    except JWTError:
+        raise credential_exception
+    
+def get_current_user(token: str = Depends(oauth2_schema)):
+    credential_exception = HTTPException(
+        detail="Could not validate", 
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        headers={"WWW-Authenticate" : "Bearer"}
+    )
+    
+    return verify_token(token, credential_exception)
+
+# this is how any route will be protected because it would first check the current user validation
+@app.get("/protected-route")
+def protected_route(current_user: schemas.User = Depends(get_current_user)):
+    return {"message": "This is a protected route", "user": current_user}
+
+```
+
+### Explaination
+
+1. **OAuth2PasswordBearer** : oauth2_schema is used to handle token authentication. It expects the token to be passed in the Authorization header as "Bearer token".
+
+2. **verify_token** : Decodes the JWT token using jwt.decode with SECRET_KEY and ALGORITHM. If successful, it retrieves the user id from the token payload. If the id is missing or decoding fails (JWTError), it raises credential_exception.
+
+3. **get_current_user**: Acts as a dependency (Depends) for route functions. It extracts the token using oauth2_schema, calls verify_token to validate it, and returns the TokenData object containing the user id.
+
+4. **protected_route Endpoint**: Demonstrates usage of Depends(get_current_user) to protect the /protected-route endpoint. Accessing this endpoint requires a valid JWT token. If authenticated, it returns a message indicating successful access and the current user's information.
+
+- **Summary**
+This setup ensures that the /protected-route endpoint is accessible only to authenticated users with a valid JWT token. Users must include the token in the Authorization header as "Bearer token" to access protected routes, providing a secure method for API authentication in FastAPI. Adjust the schemas import and schema definitions (TokenData, User) according to your project's needs.
