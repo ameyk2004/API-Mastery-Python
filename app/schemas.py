@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel,EmailStr
 
 class Post(BaseModel):
@@ -26,3 +27,12 @@ class UserOut(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_data: str
+    
+
+class TokenData(BaseModel):
+    id: Optional[str] = None

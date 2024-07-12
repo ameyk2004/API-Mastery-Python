@@ -1,5 +1,6 @@
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
+from . import schemas
 
 #SECRET KEY
 #Algo
@@ -20,3 +21,16 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
     return encoded_jwt
+
+def verify_token(token, credentialexception):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        id = payload.get("id")
+
+        if not id: 
+            raise credentialexception
+        
+        token_data = schemas.TokenData(id=id)
+
+    except JWTError:
+        raise credentialexception

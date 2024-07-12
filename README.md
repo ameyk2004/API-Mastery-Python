@@ -32,6 +32,8 @@ This project aims to provide a comprehensive guide to API development with Pytho
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1985px-Postgresql_elephant.svg.png" height="70" alt="PostgreSQL">
     <img src="https://cdn.iconscout.com/icon/free/png-256/free-docker-226091.png?f=webp&w=256" height="60" alt="Docker">
     <img src="https://www.pngall.com/wp-content/uploads/13/AWS-Logo-PNG-File.png" height="70" alt="AWS">
+    <img src="https://res.cloudinary.com/postman/image/upload/t_team_logo/v1629869194/team/2893aede23f01bfcbd2319326bc96a6ed0524eba759745ed6d73405a3a8b67a8" height="70" alt="AWS">
+    
 </div>
 
 
