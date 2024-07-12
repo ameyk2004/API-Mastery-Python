@@ -441,8 +441,6 @@ def hash(password: str):
 
 ## JWT Token Autentication
 
-- Understand the image given below.
-
 <img src="assets/Screenshot 2024-07-12 at 10.10.32 AM.png">
 
 
@@ -474,3 +472,10 @@ def hash(password: str):
 ### 6. Data Response
 - **Action**: If the token is valid, the API processes the request and sends the requested data back to the client.
 - **Data**: The client receives the data.
+
+<img src="assets/Screenshot 2024-07-12 at 10.22.41 AM.png">
+
+<img src="assets/Screenshot 2024-07-12 at 10.29.05 AM.png">
+
+
+- PLEASE DO NOT PROCEED UNLESS YOU HAVE UNDERSTOOD WHY THE SIGNATURE IS IMPORTANT
