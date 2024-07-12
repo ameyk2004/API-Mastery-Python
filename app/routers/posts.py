@@ -24,7 +24,7 @@ def create_post(post: schemas.Post, db: Session = Depends(get_db), user_id: int 
     return {"post" : new_post}
 
 @router.get('/{id}')
-def get_post(id:int, db: Session = Depends(get_db)):
+def get_post(id:int, db: Session = Depends(get_db), user_id: int = Depends(oath2.get_current_user)):
 
     post = db.query(models.Post).filter(models.Post.id == id).first()
 
@@ -34,7 +34,7 @@ def get_post(id:int, db: Session = Depends(get_db)):
     return {"post" : post}
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(get_db)):
+def delete_post(id: int, db: Session = Depends(get_db),  user_id: int = Depends(oath2.get_current_user)):
 
     post = db.query(models.Post).filter(models.Post.id == id)
 
@@ -46,7 +46,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
   
 
 @router.put('/{id}')
-def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db)):
+def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db),  user_id: int = Depends(oath2.get_current_user)):
     
     post = db.query(models.Post).filter(models.Post.id == id)
 
