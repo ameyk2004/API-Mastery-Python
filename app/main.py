@@ -9,6 +9,8 @@ import time
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+from . import utils
+
 from . import schemas
 
 from .database import engine, SessionLocal, get_db
@@ -90,7 +92,9 @@ def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db)):
 @app.post('/users', status_code=status.HTTP_201_CREATED, response_model= schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
-    new_user = models.User(name=user.name, email=user.email, password=user.password,)
+    password = utils.hash(user.password)
+
+    new_user = models.User(name=user.name, email=user.email, password=password,)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

@@ -372,3 +372,23 @@ There are various hashing algorithms available, such as:
 ### Salting
 
 Salting is a technique used to enhance password security. A salt is a random value added to the password before hashing. This ensures that even if two users have the same password, their hashed values will be different.
+
+### Implimentaion
+
+- Install the `passlib` library for password hashing
+
+```bash
+pip install passlib
+pip install bcrypt
+```
+
+- Create a `utils.py` file to store password Hashing Logic
+
+```py
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash(password: str):
+    return pwd_context.hash(password)
+```
