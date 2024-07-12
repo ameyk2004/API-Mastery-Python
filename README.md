@@ -17,6 +17,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [Authentication and User Model](#authentication-and-user-model)
 - [Password Security using Hashing](#password-security-using-hashing)
 - [JWT Token Authentication](#jwt-token-autentication)
+- [Login Process Using JWT](#login-process-using-jwt)
 
 ## Introduction
 
@@ -483,3 +484,35 @@ def hash(password: str):
 
 
 - PLEASE DO NOT PROCEED UNLESS YOU HAVE UNDERSTOOD WHY THE SIGNATURE IS IMPORTANT
+
+
+## Login Process Using JWT
+
+- create your login router and return a created token
+
+- install these dependencies 
+
+```bash
+pip install python-jose
+```
+
+- Create a file named `oath2.py`
+
+```python
+@router.post('/login')
+def login(user_credentials: schemas.UserLogin, db: Session = Depends(get_db)):
+    
+    user = db.query(models.User).filter(models.User.email == user_credentials.email).first()
+
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="email Not Found")
+    
+    verifcation = utils.verify(user_credentials.password, user.password)
+
+    if not verifcation:
+        return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="incorrect Password")
+
+    access_token =  oath2.create_access_token({"id" : user.email})
+
+    return {"access_token" : access_token, "token_type" : "bearer"}  
+```
