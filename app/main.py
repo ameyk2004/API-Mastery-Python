@@ -109,4 +109,15 @@ def get_users(db: Session = Depends(get_db)):
 
     return {"users" : users}
 
+@app.get('/users/{id}', response_model= schemas.UserOut)
+def get_one_user(id: int, db: Session = Depends(get_db)):
+
+    user = db.query(models.User).filter(models.User.id == id).first()
+
+    if not user:
+        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail=f"Id {id} not found")
+
+    return user
+    
+
     
