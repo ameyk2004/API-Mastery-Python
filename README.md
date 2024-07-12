@@ -212,7 +212,8 @@ def delete_post(id: int):
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix='/posts'
+    prefix='/posts',
+    tags='Posts
 )
 
 @router.get('/')
