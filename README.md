@@ -592,6 +592,8 @@ def verify_token(token, credential_exception):
         
         token_data = schemas.TokenData(id=id)
 
+        return token_data
+
     except JWTError:
         raise credential_exception
     
