@@ -16,6 +16,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [ORM models Vs Pydantic models](#orm-models-vs-pydantic-models)
 - [Authentication and User Model](#authentication-and-user-model)
 - [Password Security using Hashing](#password-security-using-hashing)
+- [JWT Token Authentication](#jwt-token-autentication)
 
 ## Introduction
 
@@ -437,3 +438,39 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def hash(password: str):
     return pwd_context.hash(password)
 ```
+
+## JWT Token Autentication
+
+- Understand the image given below.
+
+<img src="assets/Screenshot 2024-07-12 at 10.10.32 AM.png">
+
+
+### 1. Login Request
+- **Action**: The client sends a login request to the API endpoint.
+- **Data**: This request includes the user's credentials, typically a username and password.
+- **Endpoint**: /login (username + password)
+
+### 2. Credentials Verification
+- **Action**: The API verifies the provided credentials.
+- **Condition**: If the credentials are valid, the API generates and signs a JWT token.
+- **Token Generation**: The token is created using the user's information and a secret key.
+
+### 3. Token Response
+- **Action**: The API sends the JWT token back to the client.
+- **Data**: The client receives the token, which contains encoded user information and signature.
+
+### 4. Authenticated Request
+- **Action**: The client makes a subsequent request to a protected endpoint.
+- **Data**: This request includes the JWT token in the headers.
+- **Endpoint**: /posts {token}
+
+### 5. Token Validation
+- **Action**: The API verifies the validity of the token.
+- **Verification Steps**:
+    - *Signature Verification* : Ensures the token hasn't been tampered with.
+    - *Expiration Check* : Verifies that the token hasn't expired.
+
+### 6. Data Response
+- **Action**: If the token is valid, the API processes the request and sends the requested data back to the client.
+- **Data**: The client receives the data.
