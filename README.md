@@ -654,3 +654,21 @@ This setup ensures that the /protected-route endpoint is accessible only to auth
 2. go to any route eg. `GET POSTS` and in Bearer token set the `{{token}}` variable 
 
 <img src="assets/Screenshot 2024-07-13 at 9.41.21 AM.png">
+
+
+## Setting up Relationships in Database
+
+### Foreign Keys
+
+```python
+class Post(Base):
+    __tablename__ = "posts"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(VARCHAR, nullable=False)
+    content = Column(VARCHAR, nullable=False)
+    published = Column(Boolean, nullable=False, server_default='TRUE')
+    created_at = Column(TIMESTAMP(timezone=True), nullable=False, server_default=text('now()'))
+
+    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+```
