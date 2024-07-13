@@ -20,6 +20,7 @@ This repository is dedicated to mastering `API development` using Python, coveri
 - [Login Process Using JWT](#login-process-using-jwt)
 - [OAuth2PasswordRequestForm Usage](#oauth2passwordrequestform-usage)
 - [JWT Token Verification](#jwt-token-verification)
+- [Postman Advanced Features](#postman-advanced-features)
 
 ## Introduction
 
@@ -630,3 +631,15 @@ This setup ensures that the /protected-route endpoint is accessible only to auth
 ### Add a Bearer Token to Postman
 
 <img src="assets/Screenshot 2024-07-13 at 12.21.20 AM.png">
+
+## Postman Advanced Features
+
+### Setting up Environment in Postman
+
+- Switching from Development mode to to production mode can be tricky so it is good that we set Environment in Postman.
+
+- creating Two environment and setting url variable we can easily swich between development and Production server.
+
+<img src="assets/Screenshot 2024-07-13 at 9.29.05 AM.png">
+<img src="assets/Screenshot 2024-07-13 at 9.28.37 AM.png">
+
