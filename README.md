@@ -643,3 +643,14 @@ This setup ensures that the /protected-route endpoint is accessible only to auth
 <img src="assets/Screenshot 2024-07-13 at 9.29.05 AM.png">
 <img src="assets/Screenshot 2024-07-13 at 9.28.37 AM.png">
 
+### Setting up JWT token in Postman
+
+- to allow login route to directly send jwt token to any requested end poin, we can set environment variable here are the steps
+
+1. Go to the `/login` go to **Tests** section and set environment variable.
+
+<img src="assets/Screenshot 2024-07-13 at 9.37.50 AM.png">
+
+2. go to any route eg. `GET POSTS` and in Bearer token set the `{{token}}` variable 
+
+<img src="assets/Screenshot 2024-07-13 at 9.41.21 AM.png">
