@@ -57,12 +57,18 @@ def delete_post(id: int, db: Session = Depends(get_db),  user_id: int = Depends(
 @router.put('/{id}')
 def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db),  user_id: int = Depends(oath2.get_current_user)):
     
-    post = db.query(models.Post).filter(models.Post.id == id)
+    post_query = db.query(models.Post).filter(models.Post.id == id)
 
-    if not post.first():
+    post = post_query.first()
+
+
+    if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} not found")
     
-    post.update({'title' : my_post.title, 'content': my_post.content, 'published' : my_post.published})
+    if post.owner_id != user_id.id:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"You are not authorized to perform this")
+    
+    post_query.update({'title' : my_post.title, 'content': my_post.content, 'published' : my_post.published})
 
     db.commit()
 
