@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import Depends, HTTPException, status, APIRouter
 from .. import schemas, models, oath2
 from ..database import get_db
@@ -8,15 +9,14 @@ router = APIRouter(
     tags=["Posts"]
 )
 
-@router.get('/')
-def get_posts(db : Session = Depends(get_db)):
 
+@router.get('/', response_model=List[schemas.Post])
+def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
-    return {"posts" : posts}
+    return posts
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create_post(post: schemas.Post, db: Session = Depends(get_db), user_id: int = Depends(oath2.get_current_user)):
-   
 
     current_user = db.query(models.User).filter(models.User.id == user_id.id).first()
 
@@ -25,7 +25,7 @@ def create_post(post: schemas.Post, db: Session = Depends(get_db), user_id: int 
     db.commit()
     db.refresh(new_post)
 
-    return {"post" : new_post}
+    return new_post
 
 @router.get('/{id}')
 def get_post(id:int, db: Session = Depends(get_db), user_id: int = Depends(oath2.get_current_user)):
@@ -60,7 +60,6 @@ def update_post(id: int, my_post: schemas.Post, db: Session = Depends(get_db),  
     post_query = db.query(models.Post).filter(models.Post.id == id)
 
     post = post_query.first()
-
 
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} not found")
